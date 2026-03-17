@@ -18,44 +18,107 @@
 // const PORT = process.env.PORT || 5000;
 
 // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// const express = require("express");
+// const connectDB = require("./config/db");
+// const { connectRedis } = require("./config/redis"); // 1. Import the Redis connector
+// const dotenv = require("dotenv");
+// const cors = require("cors");
+// const morgan = require("morgan");
+// const logger = require("./utils/logger");
+// const rateLimit = require("express-rate-limit");
+
+// dotenv.config();
+
+// const app = express();
+// const apiLimiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 100, // Limit each IP to 100 requests per window
+//   message: "Too many requests from this IP, please try again after 15 minutes",
+//   handler: (req, res, next, options) => {
+//     logger.error(`Rate limit exceeded by IP: ${req.ip}`); // Log the abuse!
+//     res.status(options.statusCode).send(options.message);
+//   },
+//   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+//   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+// });
+
+// // 2. Execute the connections
+// connectDB(); // Connects to MongoDB
+// connectRedis(); // Connects to Redis (This is what's missing!)
+
+// app.use("/api/url/shorten", apiLimiter);
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173", // Your React URL
+//     methods: ["GET", "POST"],
+//     allowedHeaders: ["Content-Type"],
+//   }),
+// );
+// // Ensure you have a line like this:
+// app.use("/api/url", require("./routes/url"));
+// app.use(cors());
+// app.use(express.json());
+// app.use(
+//   morgan("combined", {
+//     stream: { write: (message) => logger.info(message.trim()) },
+//   }),
+// );
+// app.use("/api/url/shorten", apiLimiter);
+// app.use("/", require("./routes/index"));
+// // ... rest of your routes ...
+
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 const express = require("express");
-const connectDB = require("./config/db");
-const { connectRedis } = require("./config/redis"); // 1. Import the Redis connector
-const dotenv = require("dotenv");
 const cors = require("cors");
 const morgan = require("morgan");
 const logger = require("./utils/logger");
+const connectDB = require("./config/db");
+const { connectRedis } = require("./config/redis");
 const rateLimit = require("express-rate-limit");
-const logger = require("./utils/logger");
-
-dotenv.config();
 
 const app = express();
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per window
-  message: "Too many requests from this IP, please try again after 15 minutes",
-  handler: (req, res, next, options) => {
-    logger.error(`Rate limit exceeded by IP: ${req.ip}`); // Log the abuse!
-    res.status(options.statusCode).send(options.message);
-  },
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-});
 
-// 2. Execute the connections
-connectDB(); // Connects to MongoDB
-connectRedis(); // Connects to Redis (This is what's missing!)
+// 1. DATABASE & CACHE
+connectDB();
+connectRedis();
 
-app.use("/api/url/shorten", apiLimiter);
-app.use(cors());
-app.use(express.json());
+// 2. CORS (MUST be before Rate Limiting and Routes)
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Added OPTIONS
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
+
+// 3. LOGGING & PARSING
 app.use(
   morgan("combined", {
     stream: { write: (message) => logger.info(message.trim()) },
   }),
 );
-// ... rest of your routes ...
+app.use(express.json());
+
+// 4. RATE LIMITER CONFIG
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  skipSuccessfulRequests: false,
+  // This is the MAANG fix: Don't rate limit OPTIONS requests!
+  skip: (req) => req.method === "OPTIONS",
+});
+
+// 5. ROUTES
+// Apply limiter ONLY to the POST route, not the whole app
+app.use("/api/url/shorten", apiLimiter);
+app.use("/api/url", require("./routes/url"));
+app.use("/", require("./routes/index"));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// app.use(cors({
+//   origin: process.env.CLIENT_URL || 'http://localhost:5173',
+//   credentials: true
+// }));

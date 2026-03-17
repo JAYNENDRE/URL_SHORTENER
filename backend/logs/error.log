@@ -1,0 +1,13 @@
+{"level":"error","message":"Redis Client Error:","timestamp":"2026-03-18 01:59:11"}
+{"level":"error","message":"Redis Client Error:","timestamp":"2026-03-18 01:59:12"}
+{"level":"error","message":"Redis Client Error:","timestamp":"2026-03-18 01:59:12"}
+{"level":"error","message":"Redis Client Error:","timestamp":"2026-03-18 01:59:13"}
+{"level":"error","message":"Redis Client Error:","timestamp":"2026-03-18 01:59:13"}
+{"level":"error","message":"Redis connection failed, continuing with MongoDB only.","timestamp":"2026-03-18 01:59:13"}
+{"level":"error","message":"Redis Cache failed during creation: The client is closed","timestamp":"2026-03-18 01:59:29"}
+{"level":"error","message":"Redis Cache failed during creation: The client is closed","timestamp":"2026-03-18 01:59:51"}
+{"level":"error","message":"Redis Cache failed during creation: The client is closed","timestamp":"2026-03-18 01:59:54"}
+{"level":"error","message":"Redis Cache failed during creation: The client is closed","timestamp":"2026-03-18 01:59:55"}
+{"level":"error","message":"Redis Cache failed during creation: The client is closed","timestamp":"2026-03-18 02:00:05"}
+{"level":"error","message":"Redis Cache failed during creation: The client is closed","timestamp":"2026-03-18 02:00:06"}
+{"level":"error","message":"Redis Cache failed during creation: The client is closed","timestamp":"2026-03-18 02:00:07"}
