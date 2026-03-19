@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./App.css"; // styles for URL shortener components
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 function App() {
   const [longUrl, setLongUrl] = useState("");
   const [customCode, setCustomCode] = useState(""); // 1. Added state for Custom Alias
@@ -14,13 +15,10 @@ function App() {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/url/shorten",
-        {
-          longUrl: longUrl,
-          customCode: customCode, // 2. Sending the custom alias to the backend
-        },
-      );
+      const response = await axios.post(`${API_BASE_URL}/api/url/shorten`, {
+  longUrl: longUrl,
+  customCode: customCode,
+});
 
       console.log("Shortened URL Data:", response.data);
       setShortenedData(response.data);
