@@ -83,17 +83,20 @@ const app = express();
 connectDB();
 connectRedis();
 
-// 2. CORS (MUST be before Rate Limiting and Routes)
+// 2. PROXY SETTING (Crucial for Render/Load Balancers)
+app.set("trust proxy", 1);
+
+// 3. CORS CONFIGURATION
 app.use(
   cors({
     origin: process.env.CLIENT_URL || "http://localhost:5173",
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Added OPTIONS
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
 
-// 3. LOGGING & PARSING
+// 4. MIDDLEWARE
 app.use(
   morgan("combined", {
     stream: { write: (message) => logger.info(message.trim()) },
@@ -101,24 +104,24 @@ app.use(
 );
 app.use(express.json());
 
-// 4. RATE LIMITER CONFIG
+// 5. RATE LIMITER CONFIG
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
-  skipSuccessfulRequests: false,
-  // This is the MAANG fix: Don't rate limit OPTIONS requests!
-  skip: (req) => req.method === "OPTIONS",
+  skip: (req) => req.method === "OPTIONS", // Skip preflight requests
+  message: "Too many requests from this IP, please try again after 15 minutes",
 });
 
-// 5. ROUTES
-// Apply limiter ONLY to the POST route, not the whole app
+// 6. ROUTES
+// Apply the limiter only to the creation of URLs (the "expensive" operation)
 app.use("/api/url/shorten", apiLimiter);
+
 app.use("/api/url", require("./routes/url"));
 app.use("/", require("./routes/index"));
 
+// 7. START SERVER
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-// app.use(cors({
-//   origin: process.env.CLIENT_URL || 'http://localhost:5173',
-//   credentials: true
-// }));
+app.listen(PORT, () => {
+  logger.info(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
+});
