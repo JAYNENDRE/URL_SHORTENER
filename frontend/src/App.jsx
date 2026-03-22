@@ -16,9 +16,9 @@ function App() {
     setError("");
     try {
       const response = await axios.post(`${API_BASE_URL}/api/url/shorten`, {
-  longUrl: longUrl,
-  customCode: customCode,
-});
+        longUrl: longUrl,
+        customCode: customCode,
+      });
 
       console.log("Shortened URL Data:", response.data);
       setShortenedData(response.data);
@@ -76,7 +76,7 @@ function App() {
         </p>
       )}
 
-      {shortenedData && (
+      {/* {shortenedData && (
         <div className="result-box">
           <div className="result-header">
             <h3>Your Short Link:</h3>
@@ -103,41 +103,46 @@ function App() {
             </p>
           </div>
         </div>
+      )} */}
+      {shortenedData && (
+        <div
+          style={{
+            marginTop: "20px",
+            padding: "15px",
+            border: "1px solid #444",
+            borderRadius: "8px",
+          }}
+        >
+          <h3>Success! Your Shortened Link:</h3>
+          <p>
+            <a
+              href={shortenedData.shortUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "#00d1b2",
+                fontWeight: "bold",
+                fontSize: "1.2rem",
+              }}
+            >
+              {shortenedData.shortUrl}
+            </a>
+          </p>
+          <button
+            onClick={() =>
+              navigator.clipboard.writeText(shortenedData.shortUrl)
+            }
+            style={{ padding: "5px 10px", cursor: "pointer" }}
+          >
+            Copy to Clipboard
+          </button>
+        </div>
       )}
+
+      {/* Show error if any */}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 }
 
 export default App;
-
-{
-  /* {shortenedData && (
-        <div className="result-card">
-          <div className="card-header">
-            <span className="success-badge">Link Created!</span>
-          </div>
-
-          <div className="url-display-group">
-            <input
-              type="text"
-              readOnly
-              value={shortenedData.shortUrl}
-              className="short-url-input"
-            />
-            <button
-              onClick={() =>
-                navigator.clipboard.writeText(shortenedData.shortUrl)
-              }
-              className="copy-btn"
-            >
-              Copy
-            </button>
-          </div>
-
-          <div className="stats-row">
-            <span>📈 {shortenedData.clicks} Clicks</span>
-            <span>🔒 Secure Redirect</span>
-          </div>
-        </div>
-      )} */
-}
