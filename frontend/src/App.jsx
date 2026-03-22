@@ -21,7 +21,18 @@ function App() {
       });
 
       console.log("Shortened URL Data:", response.data);
-      setShortenedData(response.data);
+
+      const payload = response.data || {};
+      const finalShortUrl =
+        payload.shortUrl ||
+        (payload.urlCode ? `${API_BASE_URL}/${payload.urlCode}` : undefined);
+
+      setShortenedData({
+        ...payload,
+        shortUrl: finalShortUrl,
+      });
+
+      setLongUrl("");
       setCustomCode(""); // Clear alias input on success
     } catch (err) {
       // Logic for catching "Alias already in use" or other errors
@@ -104,7 +115,7 @@ function App() {
           </div>
         </div>
       )} */}
-      {shortenedData && (
+      {shortenedData?.shortUrl && (
         <div
           style={{
             marginTop: "20px",
