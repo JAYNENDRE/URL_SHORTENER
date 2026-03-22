@@ -66,3 +66,16 @@
 {"level":"info","message":"::1 - - [17/Mar/2026:20:30:06 +0000] \"POST /api/url/shorten HTTP/1.1\" 200 471 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0\"","timestamp":"2026-03-18 02:00:06"}
 {"level":"error","message":"Redis Cache failed during creation: The client is closed","timestamp":"2026-03-18 02:00:07"}
 {"level":"info","message":"::1 - - [17/Mar/2026:20:30:07 +0000] \"POST /api/url/shorten HTTP/1.1\" 200 471 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0\"","timestamp":"2026-03-18 02:00:07"}
+{"level":"info","message":"New URL cached: agqj4X5","timestamp":"2026-03-19 22:56:27"}
+{"level":"info","message":"::1 - - [19/Mar/2026:17:26:27 +0000] \"POST /api/url/shorten HTTP/1.1\" 200 471 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0\"","timestamp":"2026-03-19 22:56:27"}
+{"level":"info","message":"Cache Hit for: agqj4X5","timestamp":"2026-03-19 22:56:30"}
+{"level":"info","message":"::1 - - [19/Mar/2026:17:26:30 +0000] \"GET /agqj4X5 HTTP/1.1\" 302 330 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0\"","timestamp":"2026-03-19 22:56:30"}
+{"level":"info","message":"New URL cached: SV1hMNp","timestamp":"2026-03-19 23:42:17"}
+{"level":"info","message":"::1 - - [19/Mar/2026:18:12:17 +0000] \"POST /api/url/shorten HTTP/1.1\" 200 471 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0\"","timestamp":"2026-03-19 23:42:17"}
+{"level":"info","message":"::1 - - [19/Mar/2026:18:12:23 +0000] \"POST /api/url/shorten HTTP/1.1\" 400 40 \"http://localhost:5173/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0\"","timestamp":"2026-03-19 23:42:23"}
+{"level":"info","message":"Cache Miss. Found in MongoDB for: w88Zurr","timestamp":"2026-03-20 00:06:33"}
+{"level":"info","message":"::1 - - [19/Mar/2026:18:36:33 +0000] \"GET /w88Zurr HTTP/1.1\" 302 54 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36\"","timestamp":"2026-03-20 00:06:33"}
+{"level":"info","message":"Cache Miss. Found in MongoDB for: git","timestamp":"2026-03-22 11:12:35"}
+{"level":"info","message":"::1 - - [22/Mar/2026:05:42:35 +0000] \"GET /git HTTP/1.1\" 302 641 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36\"","timestamp":"2026-03-22 11:12:35"}
+{"level":"info","message":"Cache Hit for: git","timestamp":"2026-03-22 11:14:27"}
+{"level":"info","message":"::1 - - [22/Mar/2026:05:44:27 +0000] \"GET /git HTTP/1.1\" 302 641 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0\"","timestamp":"2026-03-22 11:14:27"}
